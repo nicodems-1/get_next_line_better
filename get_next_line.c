@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/11 19:57:34 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/16 14:13:28 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,24 @@ void	nxt_buffer(char buffer[])
 	ft_memmove(buffer, &buffer[begin], len);
 }
 
-char	*final_string(char *line)
+char	*final_string(int readbyte, char *line)
 {
 	int		len;
 	char	*temp;
 
+	if (readbyte == 0 && line[0] == '\0')
+		printf("tutu");
 	len = newline_finder(line) + 1;
 	temp = ft_substr(line, 0, len);
 	free(line);
 	return (temp);
+}
+
+char	*ft_free(char *line, char buffer[])
+{
+	free(line);
+	bzero(buffer, BUFFER_SIZE);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -53,41 +62,118 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			readbyte;
 
-	buffer[BUFFER_SIZE] = '\0';
+	if (fd < 0)
+		return (NULL);
 	line = ft_calloc(1, sizeof(char));
 	readbyte = 1;
 	while (readbyte > 0)
 	{
-		if (fd < 0)
-		{
-			free(line);
-			return(NULL);
-		}
 		line = ft_strjoin(line, buffer);
 		if (newline_finder(line) != -1)
 		{
 			nxt_buffer(buffer);
-			return (line = final_string(line));
+			return (line = final_string(readbyte, line));
 		}
 		readbyte = read(fd, buffer, BUFFER_SIZE);
+		if (readbyte < 0)
+			return (ft_free(line, buffer));
+		buffer[readbyte] = '\0';
 	}
-	return (line);
+	if (readbyte == 0 && line[0] != '\0')
+		return (line);
+	free(line);
+	return (NULL);
 }
 
-// int	main(void)
+// char	*get_next_line(int fd)
+// {
+// 	static char	buffer[BUFFER_SIZE + 1];
+// 	char		*line;
+// 	int			readbyte;
+
+// 	buffer[BUFFER_SIZE] = '\0';
+// 	readbyte = 1;
+// 	line = ft_calloc(1, sizeof(char));
+// 	if (fd < 0)
+// 		return(ft_free(line));
+// 	int init = 0;
+// 	while (newline_finder(line) == -1 && readbyte > 0)
+// 	{
+// 		if (init++ == 0)
+// 			readbyte = read(fd, buffer, BUFFER_SIZE);
+// 		else if (newline_finder(line) != -1)
+// 		nxt_buffer(readbyte, buffer);
+
+// 		line = ft_strjoin(line, buffer);
+// 		buffer[readbyte] = '\0';
+// 		if (readbyte < 0)
+// 			return(ft_free(line));
+// 	}
+// 	return (final_string(readbyte, line));
+// }
+
+// int	main(int argc, char **argv)
 // {
 // 	int fd;
 
-// 	fd = open("TEST.txt", O_RDONLY);
-// 	char *line;
+// 	fd = open(argv[1], O_RDONLY);
+// 	char *line = "";
 // 	int i;
 
 // 	i = 0;
-// 	while (i != 89)
+// 	while (line)
 // 	{
 // 		line = get_next_line(fd);
 // 		printf("%s", line);
 // 		free(line);
-// 		i++;
+// 		close(fd);
 // 	}
+// }
+
+// int	main(void)
+// {
+// 	char *line = "";
+
+// 	int fd = open("algo.txt", O_RDONLY);
+// 	while (line)
+// 	{
+// 		line = get_next_line(fd);
+
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+// 	close(fd);
+// }
+
+// #include <fcntl.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <unistd.h>
+
+// char	*get_next_line(int fd);
+
+// int	main(void)
+// {
+// 	int fd = open("algo.txt", O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		perror("Erreur lors de l'ouverture du fichier");
+// 		return (1);
+// 	}
+// 	int i = 0;
+// 	char *line;
+// 	while ((line = get_next_line(fd)) != NULL)
+// 	{
+// 		i++;
+// 		printf("%d : %s", i, line);
+// 		if (i == 10000)
+// 		{
+// 			close(fd);
+// 		}
+// 		free(line);
+// 	}
+// 	free(line);
+// 	close(fd);
+// 	return (0);
 // }
