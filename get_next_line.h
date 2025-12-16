@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:53:04 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/16 00:53:09 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/16 22:20:56 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000000
 # endif
-# include <fcntl.h>
 # include <stdint.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <strings.h>
 # include <unistd.h>
 
 size_t	ft_strlen(const char *s);

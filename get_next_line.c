@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/16 14:13:28 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/16 22:23:42 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*final_string(int readbyte, char *line)
 	char	*temp;
 
 	if (readbyte == 0 && line[0] == '\0')
-		printf("tutu");
+		return (NULL);
 	len = newline_finder(line) + 1;
 	temp = ft_substr(line, 0, len);
 	free(line);
@@ -51,8 +51,12 @@ char	*final_string(int readbyte, char *line)
 
 char	*ft_free(char *line, char buffer[])
 {
+	int	i;
+
+	i = -1;
 	free(line);
-	bzero(buffer, BUFFER_SIZE);
+	while (++i < BUFFER_SIZE)
+		buffer[i] = '\0';
 	return (NULL);
 }
 
