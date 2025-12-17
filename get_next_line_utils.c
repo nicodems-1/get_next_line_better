@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:44:34 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/17 03:03:47 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 04:39:31 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char	*ft_strjoin(char *s1, char const *s2)
 		i++;
 	}
 	free(s1);
-	while (s2[++j])
+	while (s2[++j] && s2[j] != '\n')
+		final_string[i + j] = s2[j];
+	if (s2[j] == '\n')
 		final_string[i + j] = s2[j];
 	return (final_string);
 }

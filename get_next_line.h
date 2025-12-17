@@ -6,14 +6,14 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:53:04 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/16 22:20:56 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 04:39:51 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000000
+#  define BUFFER_SIZE 10000
 # endif
 # include <stdint.h>
 # include <stdlib.h>
@@ -23,8 +23,8 @@ size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	*ft_calloc(size_t nmemb, size_t size);
-int		newline_finder(char *line);
+int newline_finder(char *line, int *i);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*get_next_line(int fd);
-char	*ft_free(char *line, char buffer[]);
+char	*ft_free(char *line);
 #endif

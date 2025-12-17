@@ -6,84 +6,95 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/17 03:03:57 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 04:09:09 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <strings.h>
 
-int	newline_finder(char *line)
+int newline_finder(char *line, int *i)
 {
-	int	i;
-
-	i = 0;
-	while (line[i] != '\0')
+	while (line[*i] != '\0')
 	{
-		if (line[i] == '\n')
-			return (i);
-		i++;
+		if (line[*i] == '\n')
+			return (*i);
+		(*i)++;
 	}
 	return (-1);
 }
 
-void	nxt_buffer(char buffer[])
+void nxt_buffer(char *buffer, int i)
 {
-	int	begin;
-	int	len;
+	int begin;
+	int len;
 
-	begin = newline_finder(buffer) + 1;
+	begin = i + 1;
 	len = ft_strlen(buffer) - begin;
 	ft_memmove(buffer, &buffer[begin], len);
 }
 
-char	*final_string(int readbyte, char *line)
+// char *final_string(int readbyte, char *line)
+// {
+// 	int len;
+// 	char *temp;
+
+// 	if (readbyte == 0 && line[0] == '\0')
+// 		return (NULL);
+// 	len = newline_finder(line) + 1;
+// 	temp = ft_substr(line, 0, len);
+// 	free(line);
+// 	return (temp);
+// }
+
+char *ft_free(char *line)
 {
-	int		len;
-	char	*temp;
-
-	if (readbyte == 0 && line[0] == '\0')
-		return (NULL);
-	len = newline_finder(line) + 1;
-	temp = ft_substr(line, 0, len);
 	free(line);
-	return (temp);
-}
-
-char	*ft_free(char *line, char buffer[])
-{
-	int	i;
-
-	i = -1;
-	free(line);
-	while (++i < BUFFER_SIZE)
-		buffer[i] = '\0';
+	line = NULL;
 	return (NULL);
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
-	char		*line = NULL;
-	int			readbyte;
+	static char buffer[BUFFER_SIZE + 1];
+	char *line = NULL;
+	int readbyte;
+	int i;
 
+	buffer[BUFFER_SIZE] = '\0';
 	if (fd < 0)
 		return (NULL);
 	readbyte = 1;
 	while (readbyte > 0)
 	{
-		line = ft_strjoin(line, buffer);
-		if (newline_finder(line) != -1)
+		i = 0;
+		// line = ft_strjoin(line, buffer);
+		if (newline_finder(buffer, &i) != -1)
 		{
-			nxt_buffer(buffer);
-			return (line = final_string(readbyte, line));
+			line = ft_strjoin(line, buffer);
+			nxt_buffer(buffer, i);
+			return line;
 		}
-		readbyte = read(fd, buffer, BUFFER_SIZE);
-		if (readbyte < 0)
-			return (ft_free(line, buffer));
-		buffer[readbyte] = '\0';
+		else
+		{
+			if (buffer[0] != '\0')
+			{
+				line = ft_strjoin(line, buffer);
+			}
+			readbyte = read(fd, buffer, BUFFER_SIZE);
+			buffer[readbyte] = '\0';
+			if (readbyte <= 0)
+			{
+				if (readbyte == 0)
+				{
+					return line;
+				}
+				return (ft_free(line));
+			}
+		}
 	}
-	if (readbyte == 0 && line[0] != '\0')
-		return (line);
+	// if (readbyte == 0 && line[0] != '\0')
+	// 	return (line);
 	free(line);
 	return (NULL);
 }
@@ -148,35 +159,31 @@ char	*get_next_line(int fd)
 // 	close(fd);
 // }
 
-// #include <fcntl.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-// char	*get_next_line(int fd);
 
-// int	main(void)
-// {
-// 	int fd = open("algo.txt", O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		perror("Erreur lors de l'ouverture du fichier");
-// 		return (1);
-// 	}
-// 	int i = 0;
-// 	char *line;
-// 	while ((line = get_next_line(fd)) != NULL)
-// 	{
-// 		i++;
-// 		printf("%d : %s", i, line);
-// 		if (i == 10000)
-// 		{
-// 			close(fd);
-// 		}
-// 		free(line);
-// 	}
-// 	free(line);
-// 	close(fd);
-// 	return (0);
-// }
+
+int	main(void)
+{
+	int fd = open("algo.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Erreur lors de l'ouverture du fichier");
+		return (1);
+	}
+	int i = 0;
+	char *line;
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		i++;
+		printf("%d : %s", i, line);
+		free(line);
+	}
+	free(line);
+	close(fd);
+	return (0);
+}
