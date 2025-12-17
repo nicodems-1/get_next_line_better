@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/17 09:05:44 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 09:16:44 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,24 @@ char	*get_next_line(int fd)
 	return (NULL);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+// #include <fcntl.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <unistd.h>
 
-int	main(void)
-{
-	int fd = open("algo.txt", O_RDONLY);
-	int i = 0;
-	char *line;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		i++;
-		printf("%d : %s", i, line);
-		free(line);
-	}
-	free(line);
-	close(fd);
-	return (0);
-}
+// int	main(void)
+// {
+// 	int fd = open("algo.txt", O_RDONLY);
+// 	int i = 0;
+// 	char *line;
+// 	while ((line = get_next_line(fd)) != NULL)
+// 	{
+// 		i++;
+// 		printf("%d : %s", i, line);
+// 		free(line);
+// 	}
+// 	free(line);
+// 	close(fd);
+// 	return (0);
+// }
