@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/16 22:23:42 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:03:57 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,11 @@ char	*ft_free(char *line, char buffer[])
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
-	char		*line;
+	char		*line = NULL;
 	int			readbyte;
 
 	if (fd < 0)
 		return (NULL);
-	line = ft_calloc(1, sizeof(char));
 	readbyte = 1;
 	while (readbyte > 0)
 	{

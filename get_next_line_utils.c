@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:44:34 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/15 22:15:32 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:03:47 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
@@ -28,7 +28,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	int		j;
 	char	*final_string;
 
-	i = -1;
+	i = 0;
 	j = -1;
 	final_string = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
 	if (!final_string)
@@ -36,8 +36,11 @@ char	*ft_strjoin(char *s1, char const *s2)
 		free(s1);
 		return (NULL);
 	}
-	while (s1[++i])
+	while (s1 && s1[i])
+	{
 		final_string[i] = s1[i];
+		i++;
+	}
 	free(s1);
 	while (s2[++j])
 		final_string[i + j] = s2[j];
