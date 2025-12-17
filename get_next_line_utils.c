@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:44:34 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/17 04:39:31 by niverdie         ###   ########.fr       */
+/*   Updated: 2025/12/17 08:58:52 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,67 +27,28 @@ char	*ft_strjoin(char *s1, char const *s2)
 	int		i;
 	int		j;
 	char	*final_string;
+	int		len;
 
-	i = 0;
+	i = -1;
 	j = -1;
-	final_string = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	len = ft_strlen(s1) + ft_strlen(s2);
+	final_string = malloc(len + 1 * sizeof(char));
 	if (!final_string)
-	{
-		free(s1);
-		return (NULL);
-	}
-	while (s1 && s1[i])
-	{
+		return (ft_free(s1));
+	while (s1 && s1[++i])
 		final_string[i] = s1[i];
-		i++;
-	}
+	if (i == -1)
+		i = 0;
 	free(s1);
 	while (s2[++j] && s2[j] != '\n')
 		final_string[i + j] = s2[j];
 	if (s2[j] == '\n')
 		final_string[i + j] = s2[j];
-	return (final_string);
-}
-
-char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	char			*sub;
-	unsigned int	i;
-
-	sub = NULL;
-	i = 0;
-	if (!s || start >= ft_strlen(s))
-		return (NULL);
-	if (len > ft_strlen(s) - start)
-		sub = malloc(sizeof(char) * (ft_strlen(s) - start + 1));
+	if (s2[j] != '\n')
+		final_string[i + j] = '\0';
 	else
-		sub = malloc(sizeof(char) * (len + 1));
-	if (!sub)
-		return (NULL);
-	while (len != i && s[start])
-	{
-		sub[i] = s[start];
-		start++;
-		i++;
-	}
-	sub[i] = '\0';
-	return (sub);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	unsigned char	*ptr;
-	size_t			i;
-
-	i = 0;
-	if (size != 0 && nmemb > SIZE_MAX / size)
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (ptr == NULL)
-		return (NULL);
-	while (i < nmemb * size)
-		ptr[i++] = 0;
-	return (ptr);
+		final_string[i + j + 1] = '\0';
+	return (final_string);
 }
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
