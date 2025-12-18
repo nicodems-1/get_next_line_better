@@ -41,7 +41,7 @@ You’ll use cc compilator with the usual flags required by the
 subject (-Wall -Wextra - Werror).
 
 To test it, you will need to create a file.txt and give it as
-argument int the main.
+argument in the main.
 
 Ressources
 ----------
