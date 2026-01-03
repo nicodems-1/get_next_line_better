@@ -6,12 +6,11 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2025/12/17 09:16:44 by niverdie         ###   ########.fr       */
+/*   Updated: 2026/01/03 11:41:15 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <strings.h>
 
 int	newline_finder(char *line, int *i)
 {
@@ -56,7 +55,7 @@ char	*get_next_line(int fd)
 	int			i;
 
 	line = NULL;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	readbyte = 1;
 	while (readbyte > 0)
@@ -84,7 +83,8 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	int fd = open("algo.txt", O_RDONLY);
+// 	int fd = 2;
+// 	printf("%s", get_next_line(fd));
 // 	int i = 0;
 // 	char *line;
 // 	while ((line = get_next_line(fd)) != NULL)
