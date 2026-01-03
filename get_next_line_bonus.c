@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2026/01/03 15:47:00 by niverdie         ###   ########.fr       */
+/*   Updated: 2026/01/03 15:42:11 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	newline_finder(char *line, int *i)
 {
@@ -49,7 +49,7 @@ char	*final_line(char *line, char *buffer, int i)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[1024][BUFFER_SIZE + 1];
 	char		*line;
 	int			readbyte;
 	int			i;
@@ -61,12 +61,12 @@ char	*get_next_line(int fd)
 	while (readbyte > 0)
 	{
 		i = 0;
-		if (newline_finder(buffer, &i) != -1)
-			return (final_line(line, buffer, i));
-		if (buffer[0] != '\0')
-			line = ft_strjoin(line, buffer);
-		readbyte = read(fd, buffer, BUFFER_SIZE);
-		buffer[readbyte] = '\0';
+		if (newline_finder(buffer[fd], &i) != -1)
+			return (final_line(line, buffer[fd], i));
+		if (buffer[fd][0] != '\0')
+			line = ft_strjoin(line, buffer[fd]);
+		readbyte = read(fd, buffer[fd], BUFFER_SIZE);
+		buffer[fd][readbyte] = '\0';
 		if (readbyte < 0)
 			return (ft_free(line));
 		if (readbyte == 0)
@@ -81,19 +81,24 @@ char	*get_next_line(int fd)
 // #include <string.h>
 // #include <unistd.h>
 
-// int	main(void)
+// int	main(int ac, char **av)
 // {
-// 	int fd = 0;
-// 	printf("%s", get_next_line(fd));
+// 	int fd = open(av[1], 0, 0);
+// 	int fd2 = open(av[2], 0, 0);
 // 	int i = 0;
 // 	char *line;
-// 	while ((line = get_next_line(fd)) != NULL)
-// 	{
-// 		i++;
+// 	char *line2;
+// 	// line = get_next_line(fd);
+// 	// printf("%s", line);
+// 	do {
+// 		line = get_next_line(fd);
+// 		line2 = get_next_line(fd2);
+// 		printf("%d : %s", i, line);
 // 		printf("%d : %s", i, line);
 // 		free(line);
-// 	}
-// 	free(line);
+// 		free(line2);
+// 	} while (line && line2);
 // 	close(fd);
+// 	close(fd2);
 // 	return (0);
 // }

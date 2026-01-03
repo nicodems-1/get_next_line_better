@@ -54,7 +54,7 @@ char	*get_next_line(int fd)
 	int			i;
 
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE < 0) # security to avoid reading compromised file or if Buffer size is negative
+	if (fd < 0 || BUFFER_SIZE <= 0) # security to avoid reading compromised file or if Buffer size is negative
 		return (NULL);
 	readbyte = 1; # setting readbyte at 1 for the first run to enter the while condition later
 	while (readbyte > 0) # if readbyte egal 0 it mean we read the whole file so the program can terminate
