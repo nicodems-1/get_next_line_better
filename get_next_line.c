@@ -6,7 +6,7 @@
 /*   By: niverdie <niverdie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:52:58 by niverdie          #+#    #+#             */
-/*   Updated: 2026/01/03 11:41:15 by niverdie         ###   ########.fr       */
+/*   Updated: 2026/01/03 12:14:31 by niverdie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	int fd = 2;
+// 	int fd = 0;
 // 	printf("%s", get_next_line(fd));
 // 	int i = 0;
 // 	char *line;
